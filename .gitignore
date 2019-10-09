@@ -1,0 +1,19 @@
+# Default ignored files
+/.idea/workspace.xml
+/.env
+/$PRODUCT_WORKSPACE_FILE$
+/$CACHE_FILE$
+/codeStyles/codeStyleConfig.xml
+/misc.xml
+/modules.xml
+/codeStyles/Project.xml
+/vcs.xml
+
+/.idea/$CACHE_FILE$
+/.idea/$PRODUCT_WORKSPACE_FILE$
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/codeStyles/Project.xml
+/.idea/vcs.xml
+/Discord_Bot.iml
