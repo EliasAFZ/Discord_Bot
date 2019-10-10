@@ -1,7 +1,8 @@
 """  
  Name: Discord_Bot
  Date: 10/9/2019
- Description: 
+ Description: Discord bot made to play around with python, discord.py, and json commands
+ Please mind the excessive comments in certain area's as they are for my personal notes!
 
  @Author Elias Afzalzada
  Copyright © Elias Afzalzada - All Rights Reserved
@@ -9,32 +10,69 @@
 import os
 import discord
 import requests
-
 # env library import helps load variables from an .env file
 from dotenv import load_dotenv
-#Snags var's
-load_dotenv()
+# Bot subclass of client import adds extra functionality
+from discord.ext import commands
 
+# Grab our token and server from our .env file
+load_dotenv()
 token = os.environ.get("Discord_Token")
 server = os.environ.get("Discord_Server")
-client = discord.Client()
 
-#discord starts its call here using a decorator
-@client.event
+# Switched to using bot instead of client (everywhere it says bot client use to be there)
+bot = commands.Bot(command_prefix="!", description="Test bot to play around with.")
+
+
+# client = discord.Client()
+
+# discord starts its call here using a decorator
+@bot.event
 async def on_ready():
+    # discord.py likes to call its servers "guilds" also discord.py built in get method is nice
+    guild = discord.utils.get(bot.guilds, name=server)
 
-    #discord.py likes to call its servers "guilds" also discord.py built in get method is nice
-    guild = discord.utils.get(client.guilds, name=server)
-
-    #Console status output for debugging purposes
+    # Console status output for debugging purposes
     print(
-        f"\n{client.user} is connected to discord. Currently connected Servers:"
+        f"\n{bot.user.name} is connected to discord. Currently connected Servers:"
         f"\n- {guild.name} (ID: {guild.id})"
     )
 
+
+# command decorator is technically a callback ctx is the command prefix in this case "!".
+@bot.command(name="add", help="Adds two numbers.\n Command format: \"!add x y\"")
+# converter used to convert user input to appropiate data type e.g. a: int, b: int
+async def add(ctx, x: int, y: int):
+    await ctx.send(x + y)
+
+
+@bot.command(name="sub", help="Subtracts two numbers.\n Command format: \"!subtract x y\"")
+async def subtract(ctx, x: int, y: int):
+    await ctx.send(x - y)
+
+
+@bot.command(name="mult", help="Multiply's two numbers.\n Command format: \"!multiply x y\"")
+async def multiply(ctx, x: int, y: int):
+    await ctx.send(x * y)
+
+
+@bot.command(name="div", help="Divide's two numbers.\n Command format: \"!divide x y\"")
+async def divide(ctx, x: float, y: float):
+    try:
+        await ctx.send(x / y)
+    except ZeroDivisionError:
+        await ctx.send(0)
+
+
+# Run Bot
+bot.run(token)
+
+# Old methods/tests kept for notes please ignore below.
+"""
 #decorator
 @client.event
 async  def on_message(message):
+    #checks to see if the message is from a user to prevent bot recursion
     if message.author == client.user:
         return
 
@@ -63,20 +101,16 @@ async  def on_message(message):
         response = "Error: exception written to error.log"
         await  message.channel.send(response)
         raise discord.DiscordException
-
-#Catching exception and writing it to a file
-@client.event
+        
+# Catching exceptions for on_message function and writing it to a file
+@bot.event
 async def on_error(event, *args, **kwargs):
     with open("error.log", "a") as f:
         if event == "on_message":
             f.write(f"Unhandled message: {args[0]}\n")
         else:
-            raise
-
-#Run Bot
-client.run(token)
-
-#Test/Old methods kept for notes
+            raise       
+"""
 """
 # Dm's users that just joined the server for the first time
 @client.event
