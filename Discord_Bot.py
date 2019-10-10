@@ -19,7 +19,7 @@ token = os.environ.get("Discord_Token")
 server = os.environ.get("Discord_Server")
 client = discord.Client()
 
-#discord starts its call here using decorator
+#discord starts its call here using a decorator
 @client.event
 async def on_ready():
 
@@ -32,6 +32,7 @@ async def on_ready():
         f"\n- {guild.name} (ID: {guild.id})"
     )
 
+#decorator
 @client.event
 async  def on_message(message):
     if message.author == client.user:
@@ -40,6 +41,7 @@ async  def on_message(message):
     if message.content == "!test":
         response = "Testing self ping: "
         my_id = "<@!313686003594559488>"
+        #await suspends the execution of the surrounding coroutine until each coroutine has finished.
         await message.channel.send(response + my_id + " pong")
 
     if message.content == "!patchnotes":
@@ -56,9 +58,23 @@ async  def on_message(message):
                                            "just take the elevator - Tevin"
         await message.channel.send(response)
 
+    #manual exception raise from discord to console
+    elif message.content == "!exception":
+        response = "Error: exception written to error.log"
+        await  message.channel.send(response)
+        raise discord.DiscordException
+
+#Catching exception and writing it to a file
+@client.event
+async def on_error(event, *args, **kwargs):
+    with open("error.log", "a") as f:
+        if event == "on_message":
+            f.write(f"Unhandled message: {args[0]}\n")
+        else:
+            raise
+
 #Run Bot
 client.run(token)
-
 
 #Test/Old methods kept for notes
 """
