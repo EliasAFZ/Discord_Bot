@@ -22,8 +22,6 @@ server = os.environ.get("Discord_Server")
 
 # Switched to using bot instead of client (everywhere it says bot client use to be there)
 bot = commands.Bot(command_prefix="!", description="Test bot to play around with.")
-
-
 # client = discord.Client()
 
 # discord starts its call here using a decorator
@@ -39,12 +37,11 @@ async def on_ready():
     )
 
 
-# command decorator is technically a callback ctx is the command prefix in this case "!".
-@bot.command(name="add", help="Adds two numbers.\n Command format: \"!add x y\"")
+# command decorator is technically a callback ctx is the context in which its called.
+@bot.command(pass_context = True, help="Adds two numbers.\n Command format: \"!add x y\"")
 # converter used to convert user input to appropiate data type e.g. a: int, b: int
 async def add(ctx, x: int, y: int):
-    await ctx.send(x + y)
-
+        await ctx.send(x + y)
 
 @bot.command(name="sub", help="Subtracts two numbers.\n Command format: \"!subtract x y\"")
 async def subtract(ctx, x: int, y: int):
@@ -64,10 +61,31 @@ async def divide(ctx, x: float, y: float):
         await ctx.send(0)
 
 
+@bot.command(name="patchnotes", help="Asks the expert what the patch notes are for anything.")
+async def patchnotes(ctx, str):
+    await ctx.send("<@!251728492272680971> Whats the patchnotes for " + str)
+
+# catches exception of users putting in wrong arguments
+@bot.event
+async def on_command_error(error, ctx):
+    if isinstance(error, commands.MissingRequiredArgument):
+        return await ctx.send("No varibales detected, please enter your variables.")
+
+    #nothing caught?
+    #raise error
+
 # Run Bot
 bot.run(token)
 
+
+
+
 # Old methods/tests kept for notes please ignore below.
+"""
+*COROUTINES* are generalization of subroutines. They are used for cooperative multitasking 
+where a process voluntarily yield (give away) control periodically or when idle in order 
+to enable multiple applications to be run simultaneously.
+"""
 """
 #decorator
 @client.event
