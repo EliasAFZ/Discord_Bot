@@ -38,22 +38,22 @@ async def on_ready():
 
 
 # command decorator is technically a callback ctx is the context in which its called.
-@bot.command(pass_context = True, help="Adds two numbers.\n Command format: \"!add x y\"")
+@bot.command(pass_context = True, help="Adds two numbers.")
 # converter used to convert user input to appropiate data type e.g. a: int, b: int
 async def add(ctx, x: int, y: int):
         await ctx.send(x + y)
 
-@bot.command(name="sub", help="Subtracts two numbers.\n Command format: \"!subtract x y\"")
+@bot.command(name="sub", help="Subtracts two numbers.")
 async def subtract(ctx, x: int, y: int):
     await ctx.send(x - y)
 
 
-@bot.command(name="mult", help="Multiply's two numbers.\n Command format: \"!multiply x y\"")
+@bot.command(name="mult", help="Multiply's two numbers.")
 async def multiply(ctx, x: int, y: int):
     await ctx.send(x * y)
 
 
-@bot.command(name="div", help="Divide's two numbers.\n Command format: \"!divide x y\"")
+@bot.command(name="div", help="Divide's two numbers.")
 async def divide(ctx, x: float, y: float):
     try:
         await ctx.send(x / y)
@@ -62,17 +62,14 @@ async def divide(ctx, x: float, y: float):
 
 
 @bot.command(name="patchnotes", help="Asks the expert what the patch notes are for anything.")
-async def patchnotes(ctx, str):
-    await ctx.send("<@!251728492272680971> Whats the patchnotes for " + str)
+async def patchnotes(ctx, subject):
+    await ctx.send("<@!251728492272680971> Whats the patchnotes for " + subject)
 
 # catches exception of users putting in wrong arguments
 @bot.event
-async def on_command_error(error, ctx):
+async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        return await ctx.send("No varibales detected, please enter your variables.")
-
-    #nothing caught?
-    #raise error
+        return await ctx.send("Wrong arguments entered.")
 
 # Run Bot
 bot.run(token)
