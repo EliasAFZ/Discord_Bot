@@ -1,7 +1,7 @@
 """  
  Name: Discord_Bot
  Date: 10/9/2019
- Description: Discord bot made to play around with python, discord.py, and json commands
+ Description: Discord bot made to play around with python, discord.py, json, and HTTp requests.
  Please mind the excessive comments in certain area's as they are for my personal notes!
 
  @Author Elias Afzalzada
@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 # Bot subclass of client import adds extra functionality
 from discord.ext import commands
 # Reddit data
-from Data import RedditData
+from Data import RedditData,DataExtractor
 import json
 
 # Grab our token and server from our .env file
@@ -77,7 +77,6 @@ async def patch_notes(ctx, subject):
 
 @bot.command(name="topgear", help="Random quotes from Top Gear")
 async def top_gear(ctx):
-
     # list of quotes from everyones favorite show
     top_gear_quotes = [
         "\"To test the new Range Rover, I went to the United States, which is in America.\" - Jeremy Clarkson",
@@ -87,23 +86,39 @@ async def top_gear(ctx):
         "\"Aye?! It's not a kit car, it's a Lamborghini... philistine.\" - James May",
         "\"My colander's leaking.\" - James May"
     ]
-
     response = random.choice(top_gear_quotes)
     await ctx.send(response)
 
 
-@bot.command(name="reddit", help="Returns a link from reddit")
-async def reddit(ctx, subreddit):
+@bot.command(name="rtop", help="Returns today's top post from requested subreddit.")
+async def rtop(ctx, subreddit):
+    url = "https://www.reddit.com/r/" + subreddit.lower() + "/top/.json?"
+    response = requests.get(url, verify=True, headers={'User-agent': 'discord bot 0.1'})
 
-    req = requests.get("https://www.reddit.com/r/" + subreddit.lower() + "/.json")
-    data = req.content
-    # console display of json
-    print(F"\nJson received: {data}")
-    obj = json.loads(data,object_hook=RedditData)
-    print(obj.message)
+    data = response.content
+    obj =json.loads(data, object_hook=RedditData)
 
-    await ctx.send(subbreddit + " JSON received")
+    await ctx.send(obj.data.children[0].data.url)
 
 
 # Run Bot
 bot.run(token)
+
+"""
+req = requests.get("https://www.reddit.com/r/Warthunder/.json%22)
+data = req.content
+
+obj = json.loads(data, object_hook=RedditData)
+de = DataExtractor(obj)
+
+
+#we know this is a reddit response
+if hasattr(obj,'kind'):
+    print(obj.kind)
+    print(obj.data["children"][0]) #gets the first child post. 
+
+
+#this is a error
+if hasattr(obj,"message"):
+    print(de.getMessage())
+"""

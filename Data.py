@@ -8,5 +8,14 @@
 """
 
 class RedditData:
-    def __init__(self, listing):
-        vars(self).update(listing)
+    def __init__(self, list):
+        vars(self).update(list)
+
+class DataExtractor:
+    def __init__(self, RedditData):
+        self.reddit_data = RedditData
+        self.posts = list(RedditData.data.children)
+
+
+    def getPosts(self):
+        return list(self.posts)
