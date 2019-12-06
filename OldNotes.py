@@ -76,3 +76,22 @@ async def on_member_join(member):
 members = "\n - " .join([member.name for member in guild.members])
 print(f"Server Members:\n - {members}")
 """
+
+"""
+req = requests.get("https://www.reddit.com/r/Warthunder/.json%22)
+data = req.content
+
+obj = json.loads(data, object_hook=RedditData)
+de = DataExtractor(obj)
+
+
+#we know this is a reddit response
+if hasattr(obj,'kind'):
+    print(obj.kind)
+    print(obj.data["children"][0]) #gets the first child post. 
+
+
+#this is a error
+if hasattr(obj,"message"):
+    print(de.getMessage())
+"""
