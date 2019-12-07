@@ -1,5 +1,5 @@
 # Discord_Bot
-Discord Chat bot inspired by watching how useful other chat bots have been, on our community server.
+Discord Chat bot inspired by watching how useful other chat bots have been on our community server.
 I wanted to explore python and its discord.py library to make a chat bot with some fun functionality and interaction with web APIs.
 
 # Built With
