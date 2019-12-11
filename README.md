@@ -1,6 +1,5 @@
 # Discord_Bot
-Discord Chat bot inspired by watching how useful other chat bots have been on our community server.
-Never really turned down a chance to work with python and a bonus here to check out discord.py library to make a chat bot with some fun functionality/interaction with web APIs.
+Discord Chat bot inspired by watching how useful other chat bots have been on our community server. Curiousity got the best of me so I began researching what it took to build a bot. I had never really worked with python in depth as well so killed two birds with one stone and made a chat bot with some fun functionality/interactions with web APIs.
 
 # Built With
 * [Discord API](https://support.discordapp.com/hc/en-us/articles/212889058-Discord-s-Official-API)
