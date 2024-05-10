@@ -11,10 +11,13 @@ import os
 import discord
 import requests
 import random
+
 # env library import helps load variables from an .env file
 from dotenv import load_dotenv
+
 # Bot subclass of client import adds extra functionality
 from discord.ext import commands
+
 # Reddit data
 from Data import RedditData, DataExtractor
 import json
@@ -54,13 +57,16 @@ async def on_command_error(ctx, error):
 async def add(ctx, x: int, y: int):
     await ctx.send(x + y)
 
+
 @bot.command(name="sub", help="Subtracts two numbers.")
 async def subtract(ctx, x: int, y: int):
     await ctx.send(x - y)
 
+
 @bot.command(name="mult", help="Multiply's two numbers.")
 async def multiply(ctx, x: int, y: int):
     await ctx.send(x * y)
+
 
 @bot.command(name="div", help="Divide's two numbers.")
 async def divide(ctx, x: float, y: float):
@@ -71,21 +77,30 @@ async def divide(ctx, x: float, y: float):
 
 
 # Running joke among friends that pings a specific friend of ours for patch notes on a game.
-@bot.command(name="patchnotes", help="Asks the expert what the patch notes are for anything.")
-async def patch_notes(ctx, subject):
-    await ctx.send("<@!251728492272680971> Whats the patchnotes for " + subject)
+@bot.command(
+    name="patchnotes", help="Asks the expert what the patch notes are for anything."
+)
+async def patch_notes(ctx, subject, spam: int):
+    for i in range(spam):
+        await ctx.send("<@!251728492272680971> Whats the patchnotes for " + subject)
+
+
+@bot.command(name="networking", help="neTwoRKiNG issUES aRE fUN")
+async def patch_notes(ctx):
+    for i in range(3):
+        await ctx.send("<@!120554480541368320> neTwoRKiNG issUES aRE fUN")
 
 
 # list of quotes from everyones favorite show command, choses one by random.
 @bot.command(name="topgear", help="Random quotes from Top Gear")
 async def top_gear(ctx):
     top_gear_quotes = [
-        "\"To test the new Range Rover, I went to the United States, which is in America.\" - Jeremy Clarkson",
-        "\"How hard can it be?\" - Jeremy Clarkson",
-        "\"We are on the cutting edge of cocking about.\" - Richard Hammond",
-        "\"I AM A DRIVING GOD!\" - Richard Hammond",
+        '"To test the new Range Rover, I went to the United States, which is in America." - Jeremy Clarkson',
+        '"How hard can it be?" - Jeremy Clarkson',
+        '"We are on the cutting edge of cocking about." - Richard Hammond',
+        '"I AM A DRIVING GOD!" - Richard Hammond',
         "\"Aye?! It's not a kit car, it's a Lamborghini... philistine.\" - James May",
-        "\"My colander's leaking.\" - James May"
+        '"My colander\'s leaking." - James May',
     ]
     response = random.choice(top_gear_quotes)
     await ctx.send(response)
@@ -95,7 +110,7 @@ async def top_gear(ctx):
 @bot.command(name="rtop", help="Returns today's top post from requested subreddit.")
 async def rtop(ctx, subreddit):
     url = "https://www.reddit.com/r/" + subreddit.lower() + "/top/.json?"
-    response = requests.get(url, verify=True, headers={'User-agent': 'discord bot 0.1'})
+    response = requests.get(url, verify=True, headers={"User-agent": "discord bot 0.1"})
 
     data = response.content
     obj = json.loads(data, object_hook=RedditData)

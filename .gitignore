@@ -17,3 +17,5 @@
 /.idea/codeStyles/Project.xml
 /.idea/vcs.xml
 /Discord_Bot.iml
+.vscode/settings.json
+__pycache__/Data.cpython-37.pyc
